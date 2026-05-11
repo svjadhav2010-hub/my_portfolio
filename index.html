@@ -487,6 +487,25 @@ const developer = {<br>
   <!-- ═══════════════════════════════════════
        SCRIPTS
        ═══════════════════════════════════════ -->
+
+  <!-- TERMINAL EASTER EGG (press ` or / to open) -->
+  <div id="termOverlay" style="display:none;position:fixed;inset:0;z-index:300;background:rgba(26,22,18,0.75);backdrop-filter:blur(6px);align-items:center;justify-content:center;">
+    <div class="terminal-box">
+      <div class="term-bar">
+        <div class="term-dot" style="background:#E06B6B"></div>
+        <div class="term-dot" style="background:#E0C06B"></div>
+        <div class="term-dot" style="background:#6DC56D"></div>
+        <span class="term-bar-title">swayam@portfolio ~ $</span>
+        <button class="term-close" id="termClose" aria-label="Close terminal">✕</button>
+      </div>
+      <div class="term-body" id="termBody"></div>
+      <div class="term-input-area">
+        <span class="term-prompt-sym">swayam@portfolio ~ $</span>
+        <input class="term-input" id="termInput" type="text" placeholder="type a command..." autocomplete="off" spellcheck="false" />
+      </div>
+    </div>
+  </div>
+
   <script src="main.js"></script>
 
 </body>

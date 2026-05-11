@@ -421,3 +421,155 @@ async function loadGitHubStats() {
 }
 
 loadGitHubStats();
+
+
+/* ── TERMINAL EASTER EGG ── */
+(function() {
+  var overlay  = document.getElementById('termOverlay');
+  var termBody = document.getElementById('termBody');
+  var termInput= document.getElementById('termInput');
+  var termClose= document.getElementById('termClose');
+
+  if (!overlay) return;
+
+  var CMDS = {
+    help: function() {
+      return [
+        { t: 't-info',    v: 'Available commands:' },
+        { t: 't-output',  v: '  whoami          — who is Swayam?' },
+        { t: 't-output',  v: '  ls projects     — list all projects' },
+        { t: 't-output',  v: '  skills          — tech stack' },
+        { t: 't-output',  v: '  contact         — get in touch' },
+        { t: 't-output',  v: '  cat about.txt   — about me' },
+        { t: 't-output',  v: '  open github     — open GitHub profile' },
+        { t: 't-output',  v: '  open linkedin   — open LinkedIn' },
+        { t: 't-output',  v: '  clear           — clear terminal' },
+        { t: 't-output',  v: '  sudo hire swayam — ;)' },
+      ];
+    },
+    whoami: function() {
+      return [
+        { t: 't-success', v: 'Swayam Jadhav' },
+        { t: 't-output',  v: 'B.E. CSE Student — KKWIEER, Nashik, Maharashtra' },
+        { t: 't-output',  v: 'Full-Stack Developer | Open to internships & freelance' },
+        { t: 't-output',  v: 'Building things that live on the internet since 2022.' },
+      ];
+    },
+    'ls projects': function() {
+      return [
+        { t: 't-info',   v: 'drwxr-xr-x  achievers-club-portal/    [live]' },
+        { t: 't-info',   v: 'drwxr-xr-x  student-task-manager/      [private]' },
+        { t: 't-info',   v: 'drwxr-xr-x  ai-image-generator/        [private]' },
+        { t: 't-output', v: '3 projects found. Visit #projects to learn more.' },
+      ];
+    },
+    skills: function() {
+      return [
+        { t: 't-info',   v: 'Languages :  JavaScript  TypeScript  Python  C++' },
+        { t: 't-info',   v: 'Frontend  :  React  Next.js  Tailwind CSS  HTML  CSS' },
+        { t: 't-info',   v: 'Backend   :  Node.js  Express.js' },
+        { t: 't-info',   v: 'Database  :  MySQL  TiDB  MongoDB' },
+        { t: 't-info',   v: 'Tools     :  Git  GitHub  Vercel  Figma  Postman' },
+      ];
+    },
+    contact: function() {
+      return [
+        { t: 't-output', v: 'email     swayamvjadhav2010@gmail.com' },
+        { t: 't-output', v: 'phone     +91 91465 31857' },
+        { t: 't-output', v: 'github    github.com/svjadhav2010-hub' },
+        { t: 't-output', v: 'linkedin  linkedin.com/in/swayam-jadhava15b1397' },
+        { t: 't-output', v: 'location  Nashik, Maharashtra, India' },
+      ];
+    },
+    'cat about.txt': function() {
+      return [
+        { t: 't-output', v: "I'm a 3rd-year CSE student who loves turning ideas into" },
+        { t: 't-output', v: 'real-world digital products. I build full-stack web apps,' },
+        { t: 't-output', v: 'take on real client projects, and am always learning.' },
+        { t: 't-output', v: 'Currently: building achieversnashik.in.' },
+      ];
+    },
+    'open github': function() {
+      window.open('https://github.com/svjadhav2010-hub', '_blank');
+      return [{ t: 't-success', v: 'Opening GitHub profile...' }];
+    },
+    'open linkedin': function() {
+      window.open('https://www.linkedin.com/in/swayam-jadhava15b1397/', '_blank');
+      return [{ t: 't-success', v: 'Opening LinkedIn...' }];
+    },
+    'sudo hire swayam': function() {
+      return [
+        { t: 't-success', v: '[sudo] Great choice! Initiating hire sequence...' },
+        { t: 't-output',  v: 'Checking availability........... Available ✓' },
+        { t: 't-output',  v: 'Sending offer to swayamvjadhav2010@gmail.com' },
+        { t: 't-success', v: 'Done. Best decision you made today.' },
+      ];
+    },
+    clear: function() { return null; }
+  };
+
+  function addLine(type, text) {
+    var div = document.createElement('div');
+    div.className = 'term-line ' + type;
+    div.textContent = text;
+    termBody.appendChild(div);
+    termBody.scrollTop = termBody.scrollHeight;
+  }
+
+  function initTerminal() {
+    termBody.innerHTML = '';
+    addLine('t-success', 'Welcome to Swayam\'s portfolio terminal v1.0.0');
+    addLine('t-output',  'Type "help" to see available commands.');
+    addLine('t-output',  '─────────────────────────────────────────────');
+  }
+
+  function runCmd(raw) {
+    var cmd = raw.trim().toLowerCase();
+    addLine('t-prompt', 'swayam@portfolio ~ $ ' + raw);
+
+    if (cmd === 'clear') { termBody.innerHTML = ''; return; }
+    if (cmd === '')      { return; }
+
+    var fn = CMDS[cmd];
+    if (fn) {
+      fn().forEach(function(l) { addLine(l.t, l.v); });
+    } else {
+      addLine('t-error', 'command not found: ' + raw + '. Type "help" for options.');
+    }
+
+    termInput.value = '';
+    termInput.focus();
+  }
+
+  function openTerminal() {
+    overlay.classList.add('open');
+    initTerminal();
+    setTimeout(function() { termInput.focus(); }, 50);
+  }
+
+  function closeTerminal() {
+    overlay.classList.remove('open');
+  }
+
+  /* Keyboard trigger: ` or / */
+  document.addEventListener('keydown', function(e) {
+    var tag = document.activeElement.tagName;
+    if (tag === 'INPUT' || tag === 'TEXTAREA') return;
+    if (e.key === '`' || e.key === '/') {
+      e.preventDefault();
+      overlay.classList.contains('open') ? closeTerminal() : openTerminal();
+    }
+    if (e.key === 'Escape') closeTerminal();
+  });
+
+  termInput.addEventListener('keydown', function(e) {
+    if (e.key === 'Enter') runCmd(this.value);
+    if (e.key === 'Escape') closeTerminal();
+  });
+
+  termClose.addEventListener('click', closeTerminal);
+
+  overlay.addEventListener('click', function(e) {
+    if (e.target === overlay) closeTerminal();
+  });
+})();
