@@ -581,3 +581,17 @@ loadGitHubStats();
     if (e.target === overlay) closeTerminal();
   });
 })();
+
+
+/* ── DARK MODE TOGGLE ── */
+(function() {
+  var btn  = document.getElementById('themeToggle');
+  var root = document.getElementById('htmlRoot');
+
+  if (!btn || !root) return;
+
+  btn.addEventListener('click', function() {
+    var isDark = root.classList.toggle('dark');
+    localStorage.setItem('theme', isDark ? 'dark' : 'light');
+  });
+})();
