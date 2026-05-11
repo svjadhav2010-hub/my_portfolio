@@ -595,3 +595,81 @@ loadGitHubStats();
     localStorage.setItem('theme', isDark ? 'dark' : 'light');
   });
 })();
+
+
+/* ── SKILL RADAR CHART ── */
+(function() {
+  var canvas = document.getElementById('radarChart');
+  var legend = document.getElementById('radarLegend');
+  if (!canvas || typeof Chart === 'undefined') return;
+
+  var skills = [
+    { label: 'Frontend',  value: 90, desc: 'React, Next.js, Tailwind, HTML/CSS' },
+    { label: 'Backend',   value: 75, desc: 'Node.js, Express.js, REST APIs' },
+    { label: 'Databases', value: 70, desc: 'MySQL, TiDB, MongoDB' },
+    { label: 'DevOps',    value: 65, desc: 'Git, GitHub, Vercel, Linux' },
+    { label: 'Languages', value: 80, desc: 'JS, TypeScript, Python, C++' },
+    { label: 'UI / UX',   value: 72, desc: 'Figma, design systems, accessibility' },
+  ];
+
+  /* Build legend */
+  if (legend) {
+    skills.forEach(function(s) {
+      var item = document.createElement('div');
+      item.className = 'radar-legend-item';
+      item.innerHTML =
+        '<div class="radar-legend-score">' + s.value + '</div>' +
+        '<div>' +
+          '<div class="radar-legend-name">' + s.label + '</div>' +
+          '<div class="radar-legend-desc">' + s.desc + '</div>' +
+        '</div>';
+      legend.appendChild(item);
+    });
+  }
+
+  /* Draw chart */
+  new Chart(canvas, {
+    type: 'radar',
+    data: {
+      labels: skills.map(function(s) { return s.label; }),
+      datasets: [{
+        label: 'Skill level',
+        data:  skills.map(function(s) { return s.value; }),
+        backgroundColor:    'rgba(196,147,63,0.15)',
+        borderColor:        '#C4933F',
+        borderWidth:        2,
+        pointBackgroundColor: '#C4933F',
+        pointBorderColor:   '#fff',
+        pointBorderWidth:   2,
+        pointRadius:        5,
+        pointHoverRadius:   7,
+      }]
+    },
+    options: {
+      responsive:          true,
+      maintainAspectRatio: true,
+      animation: { duration: 1400, easing: 'easeInOutQuart' },
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          callbacks: {
+            label: function(ctx) { return ' ' + ctx.raw + ' / 100'; }
+          }
+        }
+      },
+      scales: {
+        r: {
+          min: 0,
+          max: 100,
+          ticks: { stepSize: 25, display: false },
+          grid:       { color: 'rgba(139,106,62,0.12)' },
+          angleLines: { color: 'rgba(139,106,62,0.12)' },
+          pointLabels: {
+            font:  { size: 12, family: "'DM Sans', sans-serif" },
+            color: '#7A6A58',
+          }
+        }
+      }
+    }
+  });
+})();

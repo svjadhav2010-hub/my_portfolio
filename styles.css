@@ -1837,3 +1837,68 @@ section,
 .form-group textarea {
   transition: background 0.3s ease, border-color 0.3s ease, color 0.3s ease;
 }
+
+/* ═══════════════════════════════════════════════════════
+   SKILL RADAR CHART
+   ═══════════════════════════════════════════════════════ */
+.radar-wrap {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 3rem;
+  align-items: center;
+  margin-top: 3rem;
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 2rem;
+}
+
+.radar-left {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1;
+}
+
+.radar-legend {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.radar-legend-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.radar-legend-score {
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  background: rgba(196, 147, 63, 0.1);
+  border: 1px solid rgba(196, 147, 63, 0.25);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--warm-brown);
+  flex-shrink: 0;
+}
+
+.radar-legend-name {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text-main);
+  margin-bottom: 2px;
+}
+
+.radar-legend-desc {
+  font-size: 12px;
+  color: var(--text-muted);
+}
+
+/* Dark mode radar */
+html.dark .radar-wrap {
+  background: #231E1A;
+}
