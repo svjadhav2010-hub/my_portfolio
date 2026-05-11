@@ -232,3 +232,68 @@ if (readerOverlay) {
     if (e.target === readerOverlay) readerOverlay.classList.remove('open');
   });
 }
+
+
+/* ── OPEN SOURCE CONTRIBUTIONS ── */
+/* Update this array with your real contributions */
+var osContributions = [
+  {
+    repo:   'facebook/react',
+    status: 'merged',
+    desc:   'Fixed a typo in the hooks documentation that caused confusion around the useEffect dependency array.',
+    pr:     '#PR-28741 · docs fix',
+    tags:   ['documentation', 'good first issue']
+  },
+  {
+    repo:   'vercel/next.js',
+    status: 'merged',
+    desc:   'Added a missing TypeScript return type to the getServerSideProps example in the official docs.',
+    pr:     '#PR-51203 · docs fix',
+    tags:   ['TypeScript', 'documentation']
+  },
+  {
+    repo:   'tailwindlabs/tailwindcss',
+    status: 'open',
+    desc:   'Reported a reproducible bug where the dark mode class strategy conflicts with SSR hydration in certain Next.js setups.',
+    pr:     '#Issue-9812 · bug report',
+    tags:   ['bug', 'needs triage']
+  }
+];
+
+var osGrid    = document.getElementById('osGrid');
+var osTotal   = document.getElementById('osTotal');
+var osMerged  = document.getElementById('osMerged');
+var osRepos   = document.getElementById('osRepos');
+
+var statusLabels = { merged: 'Merged', open: 'Open', closed: 'Closed' };
+var statusClass  = { merged: 'status-merged', open: 'status-open', closed: 'status-closed' };
+
+if (osGrid) {
+  osContributions.forEach(function(c) {
+    var card = document.createElement('div');
+    card.className = 'os-card';
+
+    var tagsHtml = c.tags.map(function(t) {
+      return '<span class="os-tag">' + t + '</span>';
+    }).join('');
+
+    card.innerHTML =
+      '<div class="os-card-top">' +
+        '<span class="os-repo">⌥ ' + c.repo + '</span>' +
+        '<span class="os-status ' + statusClass[c.status] + '">' + statusLabels[c.status] + '</span>' +
+      '</div>' +
+      '<div class="os-desc">' + c.desc + '</div>' +
+      '<div class="os-pr">' + c.pr + '</div>' +
+      '<div class="os-tags">' + tagsHtml + '</div>';
+
+    osGrid.appendChild(card);
+  });
+
+  /* Update stats dynamically from data */
+  var mergedCount = osContributions.filter(function(c) { return c.status === 'merged'; }).length;
+  var uniqueRepos = new Set(osContributions.map(function(c) { return c.repo; })).size;
+
+  if (osTotal)  osTotal.textContent  = osContributions.length;
+  if (osMerged) osMerged.textContent = mergedCount;
+  if (osRepos)  osRepos.textContent  = uniqueRepos;
+}
