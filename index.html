@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" id="htmlRoot">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -9,6 +9,16 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+
+  <!-- Flash prevention: runs before paint -->
+  <script>
+    (function() {
+      var saved = localStorage.getItem('theme');
+      if (saved === 'dark' || (!saved && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+        document.getElementById('htmlRoot').classList.add('dark');
+      }
+    })();
+  </script>
 
   <!-- Stylesheet -->
   <link rel="stylesheet" href="styles.css" />
@@ -29,6 +39,10 @@
       <a href="#contact">contact</a>
     </div>
     <button class="nav-terminal-btn" id="navTerminalBtn" title="Open terminal (press ` or /)">terminal_</button>
+    <button class="nav-theme-btn" id="themeToggle" title="Toggle dark mode" aria-label="Toggle dark mode">
+      <span class="theme-icon-light">☀️</span>
+      <span class="theme-icon-dark">🌙</span>
+    </button>
     <a href="#resume" class="nav-resume">resume</a>
   </nav>
 
