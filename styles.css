@@ -1732,3 +1732,108 @@ footer {
   color: var(--cream);
   border-color: var(--dark-brown);
 }
+
+/* ═══════════════════════════════════════════════════════
+   DARK MODE
+   ═══════════════════════════════════════════════════════ */
+
+/* Toggle button */
+.nav-theme-btn {
+  background: transparent;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background 0.2s, border-color 0.2s;
+  flex-shrink: 0;
+}
+.nav-theme-btn:hover {
+  background: var(--cream-dark);
+  border-color: var(--warm-brown);
+}
+
+/* Show/hide sun vs moon based on mode */
+.theme-icon-dark { display: none; }
+html.dark .theme-icon-light { display: none; }
+html.dark .theme-icon-dark  { display: inline; }
+
+/* Dark mode variable overrides */
+html.dark {
+  --cream:        #1A1612;
+  --cream-dark:   #231E1A;
+  --warm-brown:   #C4933F;
+  --dark-brown:   #E8D5B8;
+  --text-main:    #EDE6D8;
+  --text-muted:   #A89880;
+  --text-light:   #7A6A58;
+  --accent:       #C4933F;
+  --accent-hover: #D4A855;
+  --border:       rgba(200, 170, 120, 0.15);
+  --white:        #231E1A;
+  --charcoal:     #0F0D0B;
+}
+
+/* Nav */
+html.dark nav {
+  background: rgba(26, 22, 18, 0.92);
+}
+
+/* Project thumbs */
+html.dark .project-thumb.t1 { background: linear-gradient(135deg, #2A2320, #221E1A); }
+html.dark .project-thumb.t2 { background: linear-gradient(135deg, #1A2228, #171F25); }
+html.dark .project-thumb.t3 { background: linear-gradient(135deg, #1E2218, #1A1F15); }
+
+/* Blog thumbs */
+html.dark .blog-thumb { filter: brightness(0.7); }
+
+/* Flip cards */
+html.dark .flip-front {
+  background: #231E1A;
+  border-color: rgba(200,170,120,0.15);
+}
+
+/* Reader overlay */
+html.dark .reader-box {
+  background: #231E1A;
+}
+
+/* Terminal (already dark, keep as-is) */
+html.dark .terminal-box { border-color: rgba(255,255,255,0.1); }
+
+/* Education quote */
+html.dark .edu-quote {
+  background: #231E1A;
+}
+
+/* About photo mini */
+html.dark .about-photo-mini {
+  background: #231E1A;
+}
+
+/* Footer stays dark — no change needed */
+
+/* Smooth transition on theme switch */
+body,
+nav,
+section,
+.project-card,
+.blog-card,
+.os-card,
+.gh-card,
+.flip-front,
+.flip-back,
+.focus-card,
+.reader-box,
+.cert-stat,
+.os-stat,
+.gh-stat-box,
+.skills-note,
+.form-group input,
+.form-group textarea {
+  transition: background 0.3s ease, border-color 0.3s ease, color 0.3s ease;
+}
