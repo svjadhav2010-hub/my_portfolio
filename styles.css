@@ -1279,3 +1279,126 @@ footer {
   font-size: 12px;
   color: var(--dark-brown);
 }
+
+/* ═══════════════════════════════════════════════════════
+   07. OPEN SOURCE
+   ═══════════════════════════════════════════════════════ */
+#opensource h2 {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(2.2rem, 3.5vw, 3rem);
+  font-weight: 700;
+  color: var(--dark-brown);
+  margin-bottom: 0.5rem;
+}
+
+#opensource .subtitle {
+  font-size: 14px;
+  color: var(--text-muted);
+  margin-bottom: 3rem;
+  max-width: 420px;
+}
+
+.os-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.25rem;
+  margin-bottom: 2rem;
+}
+
+.os-card {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 1.4rem;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+.os-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 30px rgba(61, 43, 31, 0.1);
+}
+
+.os-card-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 0.75rem;
+}
+
+.os-repo {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--dark-brown);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-family: monospace;
+}
+
+.os-status {
+  font-size: 10px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  padding: 3px 10px;
+  border-radius: 50px;
+  flex-shrink: 0;
+}
+.status-merged { background: #EAF3DE; color: #27500A; }
+.status-open   { background: #E6F1FB; color: #0C447C; }
+.status-closed { background: #F1EFE8; color: #444441; }
+
+.os-desc {
+  font-size: 13px;
+  color: var(--text-muted);
+  line-height: 1.6;
+  margin-bottom: 0.75rem;
+}
+
+.os-pr {
+  font-size: 11px;
+  color: var(--text-light);
+  font-family: monospace;
+  margin-bottom: 0.75rem;
+}
+
+.os-tags {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.os-tag {
+  background: var(--cream);
+  border: 1px solid var(--border);
+  color: var(--text-muted);
+  font-size: 11px;
+  padding: 3px 9px;
+  border-radius: 50px;
+}
+
+.os-stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+}
+
+.os-stat {
+  background: var(--cream-dark);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 1.25rem;
+  text-align: center;
+}
+
+.os-stat-num {
+  font-family: 'Playfair Display', serif;
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--dark-brown);
+}
+
+.os-stat-lbl {
+  font-size: 12px;
+  color: var(--text-light);
+  margin-top: 3px;
+}
