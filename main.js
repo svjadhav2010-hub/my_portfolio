@@ -297,3 +297,127 @@ if (osGrid) {
   if (osMerged) osMerged.textContent = mergedCount;
   if (osRepos)  osRepos.textContent  = uniqueRepos;
 }
+
+
+/* ── GITHUB STATS ── */
+/* Replace with your actual GitHub username */
+var GITHUB_USERNAME = 'svjadhav2010-hub';
+
+var LANG_COLORS = {
+  'JavaScript': '#F0DB4F', 'TypeScript': '#3178C6', 'Python':     '#3572A5',
+  'HTML':       '#E44D26', 'CSS':        '#563D7C', 'Shell':       '#89E051',
+  'C++':        '#F34B7D', 'Java':       '#B07219', 'Go':          '#00ADD8',
+  'Vue':        '#41B883', 'default':    '#8B6A3E'
+};
+
+function ghColor(lang) { return LANG_COLORS[lang] || LANG_COLORS['default']; }
+
+async function loadGitHubStats() {
+  var loadingEl = document.getElementById('ghLoading');
+  var contentEl = document.getElementById('ghContent');
+  var errorEl   = document.getElementById('ghError');
+
+  if (!loadingEl) return;
+
+  try {
+    var userRes  = await fetch('https://api.github.com/users/' + GITHUB_USERNAME);
+    var reposRes = await fetch('https://api.github.com/users/' + GITHUB_USERNAME + '/repos?per_page=100&sort=pushed');
+
+    if (userRes.status === 403) throw new Error('rate limit');
+    if (!userRes.ok) throw new Error('User not found: ' + GITHUB_USERNAME);
+
+    var user  = await userRes.json();
+    var repos = await reposRes.json();
+
+    loadingEl.style.display = 'none';
+    contentEl.style.display = 'block';
+
+    /* Overview stats */
+    document.getElementById('ghRepos').textContent     = user.public_repos;
+    document.getElementById('ghFollowers').textContent = user.followers;
+    document.getElementById('ghFollowing').textContent = user.following;
+    document.getElementById('ghGists').textContent     = user.public_gists;
+    document.getElementById('ghCreated').textContent   = new Date(user.created_at).getFullYear();
+    document.getElementById('ghProfileLink').href      = user.html_url;
+
+    var totalStars = repos.reduce(function(s, r) { return s + r.stargazers_count; }, 0);
+    document.getElementById('ghStars').textContent = totalStars;
+
+    var ownRepos = repos.filter(function(r) { return !r.fork; });
+    document.getElementById('ghPinnedCount').textContent = Math.min(ownRepos.length, 6);
+
+    /* Language breakdown */
+    var langCount = {};
+    repos.forEach(function(r) {
+      if (r.language) langCount[r.language] = (langCount[r.language] || 0) + 1;
+    });
+    var langSorted = Object.entries(langCount)
+      .sort(function(a, b) { return b[1] - a[1]; })
+      .slice(0, 5);
+    var langTotal = langSorted.reduce(function(s, l) { return s + l[1]; }, 0);
+    var langRow   = document.getElementById('langRow');
+
+    langSorted.forEach(function(l) {
+      var pct = Math.round((l[1] / langTotal) * 100);
+      var div = document.createElement('div');
+      div.className = 'gh-lang-item';
+      div.innerHTML =
+        '<div class="gh-lang-dot" style="background:' + ghColor(l[0]) + '"></div>' +
+        '<span class="gh-lang-name">' + l[0] + '</span>' +
+        '<div class="gh-lang-bar-wrap">' +
+          '<div class="gh-lang-bar" style="width:' + pct + '%;background:' + ghColor(l[0]) + '"></div>' +
+        '</div>' +
+        '<span class="gh-lang-pct">' + pct + '%</span>';
+      langRow.appendChild(div);
+    });
+
+    /* Commit activity graph — approximated from repo push dates */
+    var now    = new Date();
+    var months = [];
+    for (var i = 11; i >= 0; i--) {
+      var d = new Date(now.getFullYear(), now.getMonth() - i, 1);
+      months.push({ label: d.toLocaleString('default', { month: 'short' }), count: 0 });
+    }
+    repos.forEach(function(r) {
+      if (!r.pushed_at) return;
+      var pushed = new Date(r.pushed_at);
+      var diff   = (now.getFullYear() - pushed.getFullYear()) * 12 + (now.getMonth() - pushed.getMonth());
+      if (diff >= 0 && diff < 12) months[11 - diff].count++;
+    });
+
+    var maxCount    = Math.max.apply(null, months.map(function(m) { return m.count; })) || 1;
+    var totalPushes = months.reduce(function(s, m) { return s + m.count; }, 0);
+    document.getElementById('ghTotalCommits').textContent = totalPushes + ' pushes';
+
+    var graphEl  = document.getElementById('commitGraph');
+    var labelsEl = document.getElementById('monthLabels');
+
+    months.forEach(function(m) {
+      var heightPct = Math.round((m.count / maxCount) * 100);
+
+      var bar = document.createElement('div');
+      bar.className    = 'gh-bar';
+      bar.style.height = Math.max(heightPct, 6) + '%';
+      bar.title        = m.label + ': ' + m.count + ' pushes';
+      graphEl.appendChild(bar);
+
+      var lbl = document.createElement('div');
+      lbl.className   = 'gh-month-lbl';
+      lbl.textContent = m.label;
+      labelsEl.appendChild(lbl);
+    });
+
+  } catch (err) {
+    if (loadingEl) loadingEl.style.display = 'none';
+    if (errorEl) {
+      errorEl.style.display = 'block';
+      /* Show more helpful message for rate limiting */
+      errorEl.textContent = err.message && err.message.includes('rate')
+        ? 'GitHub API rate limit reached. Stats will load on next visit.'
+        : 'Could not load GitHub stats. Check your username in main.js or try again later.';
+    }
+    console.error('GitHub stats error:', err);
+  }
+}
+
+loadGitHubStats();
