@@ -1622,7 +1622,7 @@ footer {
 /* ═══════════════════════════════════════════════════════
    TERMINAL EASTER EGG
    ═══════════════════════════════════════════════════════ */
-#termOverlay { display: none; }
+#termOverlay { display: none; align-items: center; justify-content: center; }
 #termOverlay.open { display: flex; }
 
 .terminal-box {
@@ -1714,3 +1714,21 @@ footer {
   caret-color: #C4933F;
 }
 .term-input::placeholder { color: rgba(245, 240, 232, 0.2); }
+
+.nav-terminal-btn {
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--text-muted);
+  font-family: monospace;
+  font-size: 12px;
+  padding: 5px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s;
+  letter-spacing: 0.02em;
+}
+.nav-terminal-btn:hover {
+  background: var(--dark-brown);
+  color: var(--cream);
+  border-color: var(--dark-brown);
+}

@@ -551,6 +551,14 @@ loadGitHubStats();
     overlay.classList.remove('open');
   }
 
+  /* Nav button trigger */
+  var navBtn = document.getElementById('navTerminalBtn');
+  if (navBtn) {
+    navBtn.addEventListener('click', function() {
+      overlay.classList.contains('open') ? closeTerminal() : openTerminal();
+    });
+  }
+
   /* Keyboard trigger: ` or / */
   document.addEventListener('keydown', function(e) {
     var tag = document.activeElement.tagName;
