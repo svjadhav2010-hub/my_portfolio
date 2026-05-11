@@ -1577,3 +1577,44 @@ footer {
   transition: opacity 0.2s;
 }
 .gh-profile-link:hover { opacity: 0.75; }
+
+/* ═══════════════════════════════════════════════════════
+   AVAILABILITY BADGE (Hero)
+   ═══════════════════════════════════════════════════════ */
+.availability-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--white);
+  border: 1px solid rgba(74, 163, 84, 0.3);
+  color: #2D7A36;
+  font-size: 12px;
+  font-weight: 500;
+  padding: 6px 14px;
+  border-radius: 50px;
+  margin-bottom: 1.25rem;
+  width: fit-content;
+}
+
+.avail-dot {
+  width: 8px;
+  height: 8px;
+  background: #4CAF50;
+  border-radius: 50%;
+  flex-shrink: 0;
+  position: relative;
+}
+
+.avail-dot::before {
+  content: '';
+  position: absolute;
+  inset: -3px;
+  border-radius: 50%;
+  background: rgba(76, 175, 80, 0.3);
+  animation: availPulse 2s ease-in-out infinite;
+}
+
+@keyframes availPulse {
+  0%, 100% { transform: scale(1);   opacity: 0.6; }
+  50%       { transform: scale(1.6); opacity: 0; }
+}
