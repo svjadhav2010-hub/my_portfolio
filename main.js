@@ -140,3 +140,95 @@ window.addEventListener('scroll', function() {
     }
   });
 });
+
+
+/* ── BLOG / DEV NOTES ── */
+/* Update this array with your real blog posts */
+var blogPosts = [
+  {
+    emoji:    '🔐',
+    thumbBg:  '#EDE6D8',
+    cat:      'Next.js',
+    catBg:    '#FAEEDA',
+    catText:  '#633806',
+    title:    'How I built JWT auth from scratch in Next.js',
+    excerpt:  'Cookies, HS256, and why I stopped using next-auth for this project.',
+    date:     'Apr 2025',
+    readTime: '5 min read',
+    content:  '<p>When building the Achievers Club Portal, I needed role-based auth without the overhead of a third-party library. Here\'s how I did it using <code>jose</code> for JWT signing and HTTP-only cookies for storage.</p><p>The key insight was handling the middleware in <code>proxy.ts</code> — verifying the token on every protected route before it even hits the page component. This keeps the auth logic centralised and easy to audit.</p>'
+  },
+  {
+    emoji:    '🎨',
+    thumbBg:  '#D8E4ED',
+    cat:      'CSS',
+    catBg:    '#EEEDFE',
+    catText:  '#3C3489',
+    title:    'Dark mode without the flash — a Tailwind approach',
+    excerpt:  'The ThemeScript trick that prevents the dreaded white flash on page load.',
+    date:     'Mar 2025',
+    readTime: '3 min read',
+    content:  '<p>Dark mode sounds easy until you hit the flash-of-wrong-theme problem. The fix: inject a tiny inline <code>ThemeScript</code> in your <code>_document.tsx</code> that reads <code>localStorage</code> and applies the class synchronously — before the browser paints.</p>'
+  },
+  {
+    emoji:    '🤖',
+    thumbBg:  '#E8EDD8',
+    cat:      'AI',
+    catBg:    '#EAF3DE',
+    catText:  '#27500A',
+    title:    'From Anthropic to Gemini to Groq — finding a free AI API',
+    excerpt:  'My journey through three AI providers while building Achibot.',
+    date:     'Apr 2025',
+    readTime: '4 min read',
+    content:  '<p>Building Achibot, the AI chatbot for the Achievers Club Portal, was supposed to be the easy part. Spoiler: it wasn\'t.</p><p>Anthropic requires a paid account. Gemini kept throwing model-naming errors. I finally landed on Groq\'s free tier with <code>llama-3.3-70b-versatile</code> — fast, free, and reliable for a club chatbot.</p>'
+  }
+];
+
+var blogGrid    = document.getElementById('blogGrid');
+var readerOverlay = document.getElementById('readerOverlay');
+var readerClose   = document.getElementById('readerClose');
+
+if (blogGrid) {
+  blogPosts.forEach(function(p) {
+    var card = document.createElement('div');
+    card.className = 'blog-card';
+    card.innerHTML =
+      '<div class="blog-thumb" style="background:' + p.thumbBg + '">' + p.emoji + '</div>' +
+      '<div class="blog-body">' +
+        '<div class="blog-meta">' +
+          '<span class="blog-cat" style="background:' + p.catBg + ';color:' + p.catText + '">' + p.cat + '</span>' +
+          '<span class="blog-date">' + p.date + '</span>' +
+        '</div>' +
+        '<div class="blog-title">' + p.title + '</div>' +
+        '<div class="blog-excerpt">' + p.excerpt + '</div>' +
+        '<div class="blog-footer">' +
+          '<span class="read-time">⏱ ' + p.readTime + '</span>' +
+          '<span class="read-more">Read →</span>' +
+        '</div>' +
+      '</div>';
+
+    card.addEventListener('click', function() {
+      document.getElementById('rCat').textContent         = p.cat;
+      document.getElementById('rCat').style.background   = p.catBg;
+      document.getElementById('rCat').style.color        = p.catText;
+      document.getElementById('rTitle').textContent      = p.title;
+      document.getElementById('rDate').textContent       = p.date;
+      document.getElementById('rTime').textContent       = p.readTime;
+      document.getElementById('rContent').innerHTML      = p.content;
+      readerOverlay.classList.add('open');
+    });
+
+    blogGrid.appendChild(card);
+  });
+}
+
+if (readerClose) {
+  readerClose.addEventListener('click', function() {
+    readerOverlay.classList.remove('open');
+  });
+}
+
+if (readerOverlay) {
+  readerOverlay.addEventListener('click', function(e) {
+    if (e.target === readerOverlay) readerOverlay.classList.remove('open');
+  });
+}
