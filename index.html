@@ -197,6 +197,16 @@ const developer = {<br>
       <span style="font-size:1.2rem">💬</span>
       <span>I love building things that live on the internet.</span>
     </div>
+
+    <!-- Skill radar chart -->
+    <div class="radar-wrap">
+      <div class="radar-left">
+        <div style="position:relative;width:100%;aspect-ratio:1;">
+          <canvas id="radarChart" role="img" aria-label="Radar chart: Frontend 90, Backend 75, Databases 70, DevOps 65, Languages 80, UI/UX 72">Frontend 90, Backend 75, Databases 70, DevOps 65, Languages 80, UI/UX 72.</canvas>
+        </div>
+      </div>
+      <div class="radar-legend" id="radarLegend"></div>
+    </div>
   </section>
 
   <div class="section-divider"></div>
@@ -548,6 +558,7 @@ const developer = {<br>
     </div>
   </div>
 
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
   <script src="main.js"></script>
 
 </body>
